@@ -10,10 +10,6 @@ Biblioteca feita para facilitar o uso e cálculos de dias úteis no calendário 
 ```
 pip install dias_uteis
 ```
-Este é um parágrafo normal.
-
-    Este parágrafo simula um tab com quatro espaços.
-        dasda
 
 # Uso
 ```python
