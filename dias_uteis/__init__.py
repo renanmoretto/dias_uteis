@@ -12,6 +12,7 @@ __all__ = [
     'range_du',
     'year_dus',
     'year_holidays',
+    'diff_du',
 ]
 
 
