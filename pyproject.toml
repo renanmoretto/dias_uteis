@@ -5,7 +5,7 @@ description = ""
 authors = ["renanmoretto <himynameisrenan@outlook.com>"]
 readme = "README.md"
 packages = [{include = "dias_uteis"}]
-
+repository = "https://github.com/renanmoretto/dias_uteis"
 [tool.poetry.dependencies]
 python = "^3.6"
 

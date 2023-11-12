@@ -4,6 +4,16 @@ from typing import List
 
 from .business_days import BusinessDays, Holiday
 
+__all__ = [
+    'is_du',
+    'delta_du',
+    'last_du',
+    'next_du',
+    'range_du',
+    'year_dus',
+    'year_holidays',
+]
+
 
 def _calc_pascoa(year: int) -> datetime.date:
     """Calcula a data da Páscoa usando o Algoritmo de Meeus/Jones/Butcher."""
@@ -188,3 +198,20 @@ def year_holidays(year: int) -> List[datetime.date]:
         nenhum feriado estiver definido.
     """
     return _business_days_default.year_holidays(year)
+
+
+def diff_du(a: datetime.date, b: datetime.date) -> int:
+    """
+    Calcula a diferença entre dois dias úteis.
+
+    Parâmetros
+    ----------
+    a : datetime.date
+    b : datetime.date
+
+    Retorna
+    -------
+    int
+        Diferença entre os dias úteis 'a' e 'b'.
+    """
+    return _business_days_default.diff_bd(a, b)

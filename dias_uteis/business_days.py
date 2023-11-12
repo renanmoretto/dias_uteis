@@ -241,6 +241,31 @@ class BusinessDays:
         else:
             return []
 
+    def diff_bd(self, a: datetime.date, b: datetime.date) -> int:
+        """
+        Calculates the difference between two business days.
+
+        Parameters
+        ----------
+        a : datetime.date
+        b : datetime.date
+
+        Returns
+        -------
+        int
+            The difference between the business days 'a' and 'b'.
+        """
+        if not self.is_bd(a):
+            raise ValueError("'a' must be business day")
+        if not self.is_bd(b):
+            raise ValueError("'b' must be business day")
+
+        years = _get_years_between_two_dates(a, b)
+        all_bdays = self._get_all_bdays_for_years(years)
+        a_pos = all_bdays.index(a)
+        b_pos = all_bdays.index(b)
+        return b_pos - a_pos
+
 
 def _get_year_holidays(year: int, holidays: List[Holiday]) -> List[datetime.date]:
     return [holiday.calc_for_year(year) for holiday in holidays]
@@ -275,5 +300,7 @@ def _get_year_business_days(year: int, holidays: Optional[List[Holiday]] = None)
 
 def _get_years_between_two_dates(start_date: datetime.date, end_date: datetime.date) -> List[int]:
     if end_date > start_date:
-        return [year for year in range(start_date.year, end_date.year + 1)]
-    return [year for year in range(start_date.year, end_date.year - 1, -1)]
+        years = [year for year in range(start_date.year, end_date.year + 1)]
+    else:
+        years = [year for year in range(start_date.year, end_date.year - 1, -1)]
+    return sorted(years)
