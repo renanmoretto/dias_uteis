@@ -47,6 +47,3 @@ datetime.date(2023, 11, 3), datetime.date(2023, 11, 6)]
 >>> dus.year_holidays(2023) # Lista todos feriados de 2023
 [datetime.date(2023, 1, 1), datetime.date(2023, 2, 20), datetime.date(2023, 2, 21), datetime.date(2023, 4, 7), datetime.date(2023, 4, 21), datetime.date(2023, 5, 1), datetime.date(2023, 6, 8), datetime.date(2023, 9, 7), datetime.date(2023, 10, 12), datetime.date(2023, 11, 2), datetime.date(2023, 11, 15), datetime.date(2023, 12, 25)]
 ```
-
-# Contribuições
-Contribuições/sugestões são bem-vindas. Por favor, abra um issue ou envie um pull request para melhorias.
