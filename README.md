@@ -4,7 +4,7 @@ Biblioteca feita para facilitar o uso e cálculos de dias úteis no calendário 
 - Sem dependências externas. Nada além do puro Python é utilizado.
 - Testado em todas versões do Python desde a 3.6.
 - Fácil uso, API simples.
-- Extrememente leve.
+- Extremamente leve.
 
 # Instalação
 ```
