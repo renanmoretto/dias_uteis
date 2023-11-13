@@ -123,6 +123,27 @@ class BusinessDays:
             return True
         return False
 
+    def is_holiday(self, date: datetime.date) -> bool:
+        """
+        Checks if a given date is a holiday.
+
+        Parameters
+        ----------
+        date : datetime.date
+            The date to be checked.
+
+        Returns
+        -------
+        bool
+            Returns True if the date is a holiday, False otherwise.
+        """
+        # Fix self.holidays to be empty list if None
+        self_holidays = [] if not self.holidays else self.holidays
+        holidays = _get_year_holidays(date.year, self_holidays)
+        if date in holidays:
+            return True
+        return False
+
     def last_bd(self) -> datetime.date:
         """
         Finds the last business day relative to today.

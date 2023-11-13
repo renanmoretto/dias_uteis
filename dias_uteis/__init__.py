@@ -93,6 +93,23 @@ def is_du(date: datetime.date) -> bool:
     return _business_days_default.is_bd(date)
 
 
+def is_holiday(date: datetime.date) -> bool:
+    """
+    Verifica se uma data fornecida é um feriado.
+
+    Parâmetros
+    ----------
+    date : datetime.date
+        A data a ser verificada.
+
+    Retorna
+    -------
+    bool
+        Retorna True se a data for um feriado, False caso contrário.
+    """
+    return _business_days_default.is_holiday(date)
+
+
 def delta_du(from_date: datetime.date, days_delta: int) -> datetime.date:
     """
     Calcula a data um determinado número de dias úteis a partir de uma data especificada.

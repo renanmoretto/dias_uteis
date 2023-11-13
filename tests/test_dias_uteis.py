@@ -11,7 +11,13 @@ class TestDiasUteis(unittest.TestCase):
 
     def test_is_not_du(self):
         du = datetime.date(2023, 11, 2)  # Feriado 2/11
+        du1 = datetime.date(2020, 2, 22)  # Terça de carnaval 2020
         assert not dus.is_du(du)
+        assert not dus.is_du(du1)
+
+    def test_is_holiday(self):
+        holiday_example = datetime.date(2020, 6, 11)  # Corpus Christi 2020
+        assert dus.is_holiday(holiday_example)
 
     def test_next_du(self):
         du = dus.next_du()
@@ -22,6 +28,12 @@ class TestDiasUteis(unittest.TestCase):
         du = dus.next_du()
         assert isinstance(du, datetime.date)
         assert dus.is_du(du)
+
+    def test_delta_du(self):
+        date = datetime.date(2023, 11, 17)
+
+        assert dus.delta_du(date, 5) == datetime.date(2023, 11, 24)
+        assert dus.delta_du(date, -10) == datetime.date(2023, 11, 1)
 
     def test_range_du(self):
         range_dus = dus.range_du(datetime.date(2023, 11, 1), datetime.date(2023, 11, 30))
