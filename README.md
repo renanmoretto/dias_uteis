@@ -1,7 +1,7 @@
 # dias_uteis
 Biblioteca feita para facilitar o uso e cálculos de dias úteis no calendário brasileiro.
 
-- Sem dependências externas. Nada além do puro Python é utilizado.
+- Sem dependências externas.
 - Testado em todas versões do Python desde a 3.6.
 - Fácil uso, API simples.
 - Extremamente leve.

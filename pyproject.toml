@@ -10,9 +10,6 @@ repository = "https://github.com/renanmoretto/dias_uteis"
 python = "^3.6"
 
 
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.26.0"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
