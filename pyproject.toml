@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dias-uteis"
-version = "0.1.5"
+version = "0.1.6"
 description = ""
 authors = ["renanmoretto <himynameisrenan@outlook.com>"]
 readme = "README.md"
