@@ -148,7 +148,7 @@ class BusinessDays:
             return True
         return False
 
-    def last_bd(self) -> datetime.date:
+    def last_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
         """
         Finds the last business day relative to today.
 
@@ -157,10 +157,12 @@ class BusinessDays:
         datetime.date
             The date of the last business day.
         """
-        yesterday = datetime.date.today() - datetime.timedelta(days=1)
-        return self._find_bd(yesterday, -1)
+        if not date:
+            date = datetime.date.today() - datetime.timedelta(days=1)
+        date -= datetime.timedelta(days=1)
+        return self._find_bd(date, -1)
 
-    def next_bd(self) -> datetime.date:
+    def next_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
         """
         Finds the next business day relative to today.
 
@@ -169,8 +171,10 @@ class BusinessDays:
         datetime.date
             The date of the next business day.
         """
-        tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-        return self._find_bd(tomorrow, 1)
+        if not date:
+            date = datetime.date.today() + datetime.timedelta(days=1)
+        date += datetime.timedelta(days=1)
+        return self._find_bd(date, 1)
 
     def delta_bd(self, date: datetime.date, delta_days: int) -> datetime.date:
         """

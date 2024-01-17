@@ -1,6 +1,6 @@
 import datetime
 from functools import partial
-from typing import List
+from typing import List, Optional
 
 from .business_days import BusinessDays, Holiday
 
@@ -129,7 +129,7 @@ def delta_du(from_date: datetime.date, days_delta: int) -> datetime.date:
     return _business_days_default.delta_bd(from_date, days_delta)
 
 
-def last_du() -> datetime.date:
+def last_du(date: Optional[datetime.date] = None) -> datetime.date:
     """
     Encontra o último dia útil em relação a hoje.
 
@@ -138,10 +138,10 @@ def last_du() -> datetime.date:
     datetime.date
         A data do último dia útil.
     """
-    return _business_days_default.last_bd()
+    return _business_days_default.last_bd(date=date)
 
 
-def next_du() -> datetime.date:
+def next_du(date: Optional[datetime.date] = None) -> datetime.date:
     """
     Encontra o próximo dia útil em relação a hoje.
 
@@ -150,7 +150,7 @@ def next_du() -> datetime.date:
     datetime.date
         A data do próximo dia útil.
     """
-    return _business_days_default.next_bd()
+    return _business_days_default.next_bd(date=date)
 
 
 def range_du(
