@@ -16,8 +16,7 @@ class TestDiasUteis(unittest.TestCase):
         assert not dus.is_du(du1)
 
     def test_is_holiday(self):
-        holiday_example = datetime.date(2020, 6, 11)  # Corpus Christi 2020
-        assert dus.is_holiday(holiday_example)
+        assert dus.is_holiday(datetime.date(2020, 6, 11))  # Corpus Christi 2020
 
     def test_next_du(self):
         du = dus.next_du()
@@ -46,9 +45,9 @@ class TestDiasUteis(unittest.TestCase):
         assert dus.is_du(du)
 
     def test_delta_du(self):
-        date = datetime.date(2023, 11, 17)
-        assert dus.delta_du(date, 5) == datetime.date(2023, 11, 24)
-        assert dus.delta_du(date, -10) == datetime.date(2023, 11, 1)
+        date = datetime.date(2023, 12, 15)
+        assert dus.delta_du(date, 5) == datetime.date(2023, 12, 22)
+        assert dus.delta_du(date, -10) == datetime.date(2023, 12, 1)
 
     def test_range_du(self):
         range_dus = dus.range_du(
@@ -67,7 +66,6 @@ class TestDiasUteis(unittest.TestCase):
             datetime.date(2023, 11, 14),
             datetime.date(2023, 11, 16),
             datetime.date(2023, 11, 17),
-            datetime.date(2023, 11, 20),
             datetime.date(2023, 11, 21),
             datetime.date(2023, 11, 22),
             datetime.date(2023, 11, 23),
@@ -77,7 +75,7 @@ class TestDiasUteis(unittest.TestCase):
             datetime.date(2023, 11, 29),
         ]
 
-        assert len(range_dus) == 19
+        assert len(range_dus) == 18
         assert len(range_dus) == len(nov2023_dus_sample)
 
         for du, du_sample in zip(range_dus, nov2023_dus_sample):
@@ -88,7 +86,7 @@ class TestDiasUteis(unittest.TestCase):
         year_dus = dus.year_dus(2023)
         for du in year_dus:
             assert dus.is_du(du)
-        assert len(year_dus) == 249
+        assert len(year_dus) == 248
 
     def test_year_holidays(self):
         year_holidays = dus.year_holidays(2023)
@@ -104,23 +102,34 @@ class TestDiasUteis(unittest.TestCase):
             datetime.date(2023, 10, 12),
             datetime.date(2023, 11, 2),
             datetime.date(2023, 11, 15),
+            datetime.date(2023, 11, 20),
             datetime.date(2023, 12, 25),
         ]
 
         assert len(year_holidays) == len(holidays_2023_sample)
-        assert len(year_holidays) == 12
+        assert len(year_holidays) == 13
         for holiday, holiday_sample in zip(year_holidays, holidays_2023_sample):
             assert holiday == holiday_sample
             assert not dus.is_du(holiday)
 
     def test_diff_du_positive(self):
-        diff = dus.diff_du(
-            datetime.date(2023, 11, 1), datetime.date(2023, 11, 30)
-        )
-        assert diff == 19
+        tests = [
+            {
+                'a': datetime.date(2023, 11, 1),
+                'b': datetime.date(2023, 11, 30),
+                'r': 18,
+            },
+            {
+                'a': datetime.date(2024, 1, 17),
+                'b': datetime.date(2030, 1, 2),
+                'r': 1491,
+            },
+        ]
+        for test in tests:
+            assert dus.diff_du(test['a'], test['b']) == test['r']
 
     def test_diff_du_negative(self):
         diff = dus.diff_du(
-            datetime.date(2025, 12, 11), datetime.date(2023, 10, 20)
+            datetime.date(2025, 12, 11), datetime.date(2024, 1, 23)
         )
-        assert diff == -541
+        assert diff == -476

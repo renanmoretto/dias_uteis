@@ -67,6 +67,7 @@ FERIADOS_NACIONAIS_BR = [
     Holiday(month=10, day=12),  # Nossa Senhora Aparecida
     Holiday(month=11, day=2),  # Finados
     Holiday(month=11, day=15),  # Proclamação da República
+    Holiday(month=11, day=20),  # Consciência Negra
     Holiday(month=12, day=25),  # Natal
 ]
 
