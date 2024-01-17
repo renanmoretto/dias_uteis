@@ -48,7 +48,9 @@ class Holiday:
             _type = 'fixed'
         else:
             if func is None:
-                raise ValueError("'func' is required if 'month' and 'day' are both None")
+                raise ValueError(
+                    "'func' is required if 'month' and 'day' are both None"
+                )
             if not callable(func):
                 raise TypeError("'func' must be a callable")
             _type = 'dynamic'
@@ -92,7 +94,9 @@ class BusinessDays:
     def _get_year_business_days(self, year: int) -> List[datetime.date]:
         return _get_year_business_days(year, self.holidays)
 
-    def _find_bd(self, start_date: datetime.date, direction: int) -> datetime.date:
+    def _find_bd(
+        self, start_date: datetime.date, direction: int
+    ) -> datetime.date:
         date = start_date
         while not self.is_bd(date):
             date += datetime.timedelta(days=direction)
@@ -195,7 +199,10 @@ class BusinessDays:
         return all_bdays[date_position + delta_days]
 
     def range_bd(
-        self, start_date: datetime.date, end_date: datetime.date, include_end: bool = False
+        self,
+        start_date: datetime.date,
+        end_date: datetime.date,
+        include_end: bool = False,
     ) -> List[datetime.date]:
         """
         Gets a list of business days within a specified range.
@@ -219,9 +226,17 @@ class BusinessDays:
         years = _get_years_between_two_dates(start_date, end_date)
         all_bdays = self._get_all_bdays_for_years(years)
         if include_end:
-            return [bday for bday in all_bdays if bday >= start_date and bday <= end_date]
+            return [
+                bday
+                for bday in all_bdays
+                if bday >= start_date and bday <= end_date
+            ]
         else:
-            return [bday for bday in all_bdays if bday >= start_date and bday < end_date]
+            return [
+                bday
+                for bday in all_bdays
+                if bday >= start_date and bday < end_date
+            ]
 
     def year_bds(self, year: int) -> List[datetime.date]:
         """
@@ -237,7 +252,9 @@ class BusinessDays:
         List[datetime.date]
             A list containing all business days in the specified year.
         """
-        return self.range_bd(datetime.date(year, 1, 1), datetime.date(year, 12, 31), True)
+        return self.range_bd(
+            datetime.date(year, 1, 1), datetime.date(year, 12, 31), True
+        )
 
     def year_holidays(self, year: int) -> List[datetime.date]:
         """
@@ -288,7 +305,9 @@ class BusinessDays:
         return b_pos - a_pos
 
 
-def _get_year_holidays(year: int, holidays: List[Holiday]) -> List[datetime.date]:
+def _get_year_holidays(
+    year: int, holidays: List[Holiday]
+) -> List[datetime.date]:
     return [holiday.calc_for_year(year) for holiday in holidays]
 
 
@@ -304,7 +323,9 @@ def _get_year_holidays(year: int, holidays: List[Holiday]) -> List[datetime.date
 #     return dates
 
 
-def _get_year_business_days(year: int, holidays: Optional[List[Holiday]] = None) -> List[datetime.date]:
+def _get_year_business_days(
+    year: int, holidays: Optional[List[Holiday]] = None
+) -> List[datetime.date]:
     if holidays:
         year_holidays = _get_year_holidays(year, holidays)
     else:
@@ -319,7 +340,9 @@ def _get_year_business_days(year: int, holidays: Optional[List[Holiday]] = None)
     return dates
 
 
-def _get_years_between_two_dates(start_date: datetime.date, end_date: datetime.date) -> List[int]:
+def _get_years_between_two_dates(
+    start_date: datetime.date, end_date: datetime.date
+) -> List[int]:
     if end_date > start_date:
         years = [year for year in range(start_date.year, end_date.year + 1)]
     else:
