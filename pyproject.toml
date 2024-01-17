@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "dias-uteis"
 version = "0.1.6"
-description = ""
+description = "Ferramentas para cálculos de dias úteis no calendário brasileiro."
 authors = ["renanmoretto <himynameisrenan@outlook.com>"]
 readme = "README.md"
 packages = [{include = "dias_uteis"}]
