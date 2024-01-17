@@ -20,4 +20,4 @@ build-backend = "poetry.core.masonry.api"
 line-length = 80
 
 [tool.ruff.format]
-quote-style = "style"
+quote-style = "single"
