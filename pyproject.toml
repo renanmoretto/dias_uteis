@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "dias-uteis"
-version = "0.1.7"
+version = "0.1.8"
 description = "Ferramentas para cálculos de dias úteis no calendário brasileiro."
 authors = ["renanmoretto <himynameisrenan@outlook.com>"]
 readme = "README.md"
 packages = [{include = "dias_uteis"}]
 repository = "https://github.com/renanmoretto/dias_uteis"
+include = ["dias_uteis/py.typed"]
 
 
 [tool.poetry.dependencies]
