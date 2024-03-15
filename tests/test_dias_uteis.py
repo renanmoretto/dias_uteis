@@ -18,36 +18,54 @@ class TestDiasUteis(unittest.TestCase):
     def test_is_holiday(self):
         assert dus.is_holiday(datetime.date(2020, 6, 11))  # Corpus Christi 2020
 
-    def test_next_du(self):
-        du = dus.next_du()
-        assert isinstance(du, datetime.date)
-        assert du > datetime.date.today()
-        assert dus.is_du(du)
-
-    def test_next_du_with_date(self):
-        date = datetime.date(2024, 1, 17)
-        du = dus.next_du(date)
-        assert isinstance(du, datetime.date)
-        assert date < du
-        assert dus.is_du(du)
-
-    def test_last_du(self):
-        du = dus.last_du()
-        assert isinstance(du, datetime.date)
-        assert du < datetime.date.today()
-        assert dus.is_du(du)
-
-    def test_last_du_with_date(self):
-        date = datetime.date(2024, 1, 17)
-        du = dus.last_du(date)
-        assert isinstance(du, datetime.date)
-        assert date > du
-        assert dus.is_du(du)
-
     def test_delta_du(self):
         date = datetime.date(2023, 12, 15)
         assert dus.delta_du(date, 5) == datetime.date(2023, 12, 22)
         assert dus.delta_du(date, -10) == datetime.date(2023, 12, 1)
+
+    def test_next_du(self):
+        today = datetime.date.today()
+        next_du = dus.next_du()
+        assert isinstance(next_du, datetime.date)
+        assert next_du > today
+        assert dus.diff_du(today, next_du) == 1
+        assert dus.is_du(next_du)
+
+    def test_next_du_with_date(self):
+        date = datetime.date(2024, 1, 17)
+        next_du = dus.next_du(date)
+        assert isinstance(next_du, datetime.date)
+        assert next_du > date
+        assert dus.diff_du(date, next_du) == 1
+        assert dus.is_du(next_du)
+
+    def test_next_du_both(self):
+        today = datetime.date.today()
+        next_du1 = dus.next_du()
+        next_du2 = dus.next_du(today)
+        assert next_du1 == next_du2
+
+    def test_last_du(self):
+        today = datetime.date.today()
+        last_du = dus.last_du()
+        assert isinstance(last_du, datetime.date)
+        assert last_du < today
+        assert dus.diff_du(today, last_du) == -1
+        assert dus.is_du(last_du)
+
+    def test_last_du_with_date(self):
+        date = datetime.date(2024, 1, 17)
+        last_du = dus.last_du(date)
+        assert isinstance(last_du, datetime.date)
+        assert last_du < date
+        assert dus.diff_du(date, last_du) == -1
+        assert dus.is_du(last_du)
+
+    def test_last_du_both(self):
+        today = datetime.date.today()
+        last_du1 = dus.last_du()
+        last_du2 = dus.last_du(today)
+        assert last_du1 == last_du2
 
     def test_range_du(self):
         range_dus = dus.range_du(

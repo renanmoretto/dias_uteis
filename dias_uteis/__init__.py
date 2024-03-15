@@ -221,7 +221,7 @@ def year_holidays(year: int) -> List[datetime.date]:
 
 def diff_du(a: datetime.date, b: datetime.date) -> int:
     """
-    Calcula a diferença entre dois dias úteis.
+    Calcula a diferença entre dois dias úteis (b-a).
 
     Parâmetros
     ----------

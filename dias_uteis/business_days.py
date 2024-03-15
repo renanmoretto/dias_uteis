@@ -94,13 +94,13 @@ class BusinessDays:
     def _get_year_business_days(self, year: int) -> List[datetime.date]:
         return _get_year_business_days(year, self.holidays)
 
-    def _find_bd(
-        self, start_date: datetime.date, direction: int
-    ) -> datetime.date:
-        date = start_date
-        while not self.is_bd(date):
-            date += datetime.timedelta(days=direction)
-        return date
+    # def _find_bd(
+    #     self, start_date: datetime.date, direction: int
+    # ) -> datetime.date:
+    #     date = start_date
+    #     while not self.is_bd(date):
+    #         date += datetime.timedelta(days=direction)
+    #     return date
 
     def _get_all_bdays_for_years(self, years: List[int]) -> List[datetime.date]:
         all_bdays = []
@@ -148,34 +148,6 @@ class BusinessDays:
             return True
         return False
 
-    def last_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
-        """
-        Finds the last business day relative to today.
-
-        Returns
-        -------
-        datetime.date
-            The date of the last business day.
-        """
-        if not date:
-            date = datetime.date.today() - datetime.timedelta(days=1)
-        date -= datetime.timedelta(days=1)
-        return self._find_bd(date, -1)
-
-    def next_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
-        """
-        Finds the next business day relative to today.
-
-        Returns
-        -------
-        datetime.date
-            The date of the next business day.
-        """
-        if not date:
-            date = datetime.date.today() + datetime.timedelta(days=1)
-        date += datetime.timedelta(days=1)
-        return self._find_bd(date, 1)
-
     def delta_bd(self, date: datetime.date, delta_days: int) -> datetime.date:
         """
         Calculates the date a certain number of business days from a specified date.
@@ -201,6 +173,32 @@ class BusinessDays:
         all_bdays = self._get_all_bdays_for_years(years)
         date_position = all_bdays.index(date)
         return all_bdays[date_position + delta_days]
+
+    def next_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
+        """
+        Finds the next business day relative to today.
+
+        Returns
+        -------
+        datetime.date
+            The date of the next business day.
+        """
+        if not date:
+            date = datetime.date.today()
+        return self.delta_bd(date, 1)
+
+    def last_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
+        """
+        Finds the last business day relative to today.
+
+        Returns
+        -------
+        datetime.date
+            The date of the last business day.
+        """
+        if not date:
+            date = datetime.date.today()
+        return self.delta_bd(date, -1)
 
     def range_bd(
         self,
@@ -285,7 +283,7 @@ class BusinessDays:
 
     def diff_bd(self, a: datetime.date, b: datetime.date) -> int:
         """
-        Calculates the difference between two business days.
+        Calculates the difference between two business days (b-a).
 
         Parameters
         ----------
