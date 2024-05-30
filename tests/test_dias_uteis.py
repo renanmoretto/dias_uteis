@@ -28,7 +28,10 @@ class TestDiasUteis(unittest.TestCase):
         next_du = dus.next_du()
         assert isinstance(next_du, datetime.date)
         assert next_du > today
-        assert dus.diff_du(today, next_du) == 1
+
+        if dus.is_du(today):
+            assert dus.diff_du(today, next_du) == 1
+
         assert dus.is_du(next_du)
 
     def test_next_du_with_date(self):
@@ -50,7 +53,10 @@ class TestDiasUteis(unittest.TestCase):
         last_du = dus.last_du()
         assert isinstance(last_du, datetime.date)
         assert last_du < today
-        assert dus.diff_du(today, last_du) == -1
+
+        if dus.is_du(today):
+            assert dus.diff_du(today, last_du) == -1
+
         assert dus.is_du(last_du)
 
     def test_last_du_with_date(self):

@@ -94,13 +94,15 @@ class BusinessDays:
     def _get_year_business_days(self, year: int) -> List[datetime.date]:
         return _get_year_business_days(year, self.holidays)
 
-    # def _find_bd(
-    #     self, start_date: datetime.date, direction: int
-    # ) -> datetime.date:
-    #     date = start_date
-    #     while not self.is_bd(date):
-    #         date += datetime.timedelta(days=direction)
-    #     return date
+    def _find_bd(
+        self,
+        start_date: datetime.date,
+        direction: int,
+    ) -> datetime.date:
+        date = start_date
+        while not self.is_bd(date):
+            date += datetime.timedelta(days=direction)
+        return date
 
     def _get_all_bdays_for_years(self, years: List[int]) -> List[datetime.date]:
         all_bdays = []
@@ -185,6 +187,10 @@ class BusinessDays:
         """
         if not date:
             date = datetime.date.today()
+
+        if not self.is_bd(date):
+            date = self._find_bd(date, -1)  # find last bday
+
         return self.delta_bd(date, 1)
 
     def last_bd(self, date: Optional[datetime.date] = None) -> datetime.date:
@@ -198,6 +204,10 @@ class BusinessDays:
         """
         if not date:
             date = datetime.date.today()
+
+        if not self.is_bd(date):
+            date = self._find_bd(date, 1)  # find next bday
+
         return self.delta_bd(date, -1)
 
     def range_bd(
