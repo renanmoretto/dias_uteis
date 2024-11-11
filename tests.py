@@ -30,7 +30,7 @@ class TestDiasUteis(unittest.TestCase):
         assert next_du > today
 
         if dus.is_du(today):
-            assert dus.diff_du(today, next_du) == 1
+            assert dus.diff(today, next_du) == 1
 
         assert dus.is_du(next_du)
 
@@ -39,7 +39,14 @@ class TestDiasUteis(unittest.TestCase):
         next_du = dus.next_du(date)
         assert isinstance(next_du, datetime.date)
         assert next_du > date
-        assert dus.diff_du(date, next_du) == 1
+        assert dus.diff(date, next_du) == 1
+        assert dus.is_du(next_du)
+
+        date = datetime.date(2024, 1, 1)
+        next_du = dus.next_du(date)
+        assert isinstance(next_du, datetime.date)
+        assert next_du > date
+        assert dus.diff(date, next_du) == 0
         assert dus.is_du(next_du)
 
     def test_next_du_both(self):
@@ -55,7 +62,7 @@ class TestDiasUteis(unittest.TestCase):
         assert last_du < today
 
         if dus.is_du(today):
-            assert dus.diff_du(today, last_du) == -1
+            assert dus.diff(today, last_du) == -1
 
         assert dus.is_du(last_du)
 
@@ -64,7 +71,14 @@ class TestDiasUteis(unittest.TestCase):
         last_du = dus.last_du(date)
         assert isinstance(last_du, datetime.date)
         assert last_du < date
-        assert dus.diff_du(date, last_du) == -1
+        assert dus.diff(date, last_du) == -1
+        assert dus.is_du(last_du)
+
+        date = datetime.date(2024, 1, 1)
+        last_du = dus.last_du(date)
+        assert isinstance(last_du, datetime.date)
+        assert last_du < date
+        assert dus.diff(date, last_du) == 0
         assert dus.is_du(last_du)
 
     def test_last_du_both(self):
@@ -74,9 +88,7 @@ class TestDiasUteis(unittest.TestCase):
         assert last_du1 == last_du2
 
     def test_range_du(self):
-        range_dus = dus.range_du(
-            datetime.date(2023, 11, 1), datetime.date(2023, 11, 30)
-        )
+        range_dus = dus.range_du(datetime.date(2023, 11, 1), datetime.date(2023, 11, 30))
 
         nov2023_dus_sample = [
             datetime.date(2023, 11, 1),
@@ -136,24 +148,10 @@ class TestDiasUteis(unittest.TestCase):
             assert holiday == holiday_sample
             assert not dus.is_du(holiday)
 
-    def test_diff_du_positive(self):
-        tests = [
-            {
-                'a': datetime.date(2023, 11, 1),
-                'b': datetime.date(2023, 11, 30),
-                'r': 18,
-            },
-            {
-                'a': datetime.date(2024, 1, 17),
-                'b': datetime.date(2030, 1, 2),
-                'r': 1491,
-            },
-        ]
-        for test in tests:
-            assert dus.diff_du(test['a'], test['b']) == test['r']
-
-    def test_diff_du_negative(self):
-        diff = dus.diff_du(
-            datetime.date(2025, 12, 11), datetime.date(2024, 1, 23)
-        )
-        assert diff == -476
+    def test_diff(self):
+        assert dus.diff(datetime.date(2024, 11, 4), datetime.date(2024, 11, 11)) == 5
+        assert dus.diff(datetime.date(2024, 11, 4), datetime.date(2024, 11, 18)) == 9
+        assert dus.diff(datetime.date(2024, 11, 11), datetime.date(2024, 11, 4)) == -5
+        assert dus.diff(datetime.date(2024, 11, 18), datetime.date(2024, 11, 4)) == -9
+        assert dus.diff(datetime.date(2024, 11, 11), datetime.date(2034, 1, 2)) == 2290
+        assert dus.diff(datetime.date(2034, 1, 2), datetime.date(2024, 11, 11)) == -2290
