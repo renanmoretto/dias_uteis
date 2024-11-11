@@ -10,7 +10,6 @@ build
 test.py
 sample
 __pycache__
-*.lock
 __pypackages__/
 .ipynb_checkpoints
 *.ipynb
