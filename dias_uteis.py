@@ -123,7 +123,7 @@ class BusinessDays:
             all_bdays += self._get_year_business_days(year)
         return all_bdays
 
-    def is_bd(self, date: datetime.date) -> bool:
+    def is_bd(self, date: datetime.date | datetime.datetime) -> bool:
         """
         Checks if a given date is a business day.
 
@@ -137,6 +137,8 @@ class BusinessDays:
         bool
             Returns True if the date is a business day, False otherwise.
         """
+        if isinstance(date, datetime.datetime):
+            date = date.date()
         year_bdays = self._get_year_business_days(date.year)
         if date in year_bdays:
             return True

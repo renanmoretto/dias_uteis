@@ -155,3 +155,12 @@ class TestDiasUteis(unittest.TestCase):
         assert dus.diff(datetime.date(2024, 11, 18), datetime.date(2024, 11, 4)) == -9
         assert dus.diff(datetime.date(2024, 11, 11), datetime.date(2034, 1, 2)) == 2290
         assert dus.diff(datetime.date(2034, 1, 2), datetime.date(2024, 11, 11)) == -2290
+
+    # this should be removed soon
+    def test_diff_du_deprecated(self):
+        assert dus.diff_du(datetime.date(2024, 11, 4), datetime.date(2024, 11, 11)) == 5
+        assert dus.diff_du(datetime.date(2024, 11, 4), datetime.date(2024, 11, 18)) == 9
+        assert dus.diff_du(datetime.date(2024, 11, 11), datetime.date(2024, 11, 4)) == -5
+        assert dus.diff_du(datetime.date(2024, 11, 18), datetime.date(2024, 11, 4)) == -9
+        assert dus.diff_du(datetime.date(2024, 11, 11), datetime.date(2034, 1, 2)) == 2290
+        assert dus.diff_du(datetime.date(2034, 1, 2), datetime.date(2024, 11, 11)) == -2290
