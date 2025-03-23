@@ -27,7 +27,7 @@ datetime.date(2023, 11, 9)
 >>> dus.is_du(date)
 True
 
->>> corpus_christi_2020 = datetime.date(2020, 6, 11) # Corpus Christi 2020
+>>> corpus_christi_2020 = datetime.date(2020, 6, 11)
 >>> dus.is_holiday(corpus_christi_2020)
 True
 
