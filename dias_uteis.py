@@ -1,6 +1,6 @@
 import datetime
 from functools import partial
-from typing import List, Optional, Callable
+from typing import List, Optional, Callable, Union
 import warnings
 
 
@@ -14,7 +14,6 @@ __all__ = [
     'year_holidays',
     'diff_du',
 ]
-import pdb
 
 
 class Holiday:
@@ -30,6 +29,11 @@ class Holiday:
     func : Callable[[int], datetime.date], optional
         A function that takes a year as an argument and returns the date of the holiday for
         that year if it's a dynamic date, default None.
+    start_year : int, optional
+        The year when the holiday starts to occur, default None. This is not used for dynamic holidays.
+    end_year : int, optional
+        The year when the holiday stops to occur, default None. This is not used for dynamic holidays.
+        Note: This year will be considered as the last year the holiday will occur.
 
     Methods
     -------
@@ -50,6 +54,8 @@ class Holiday:
         month: Optional[int] = None,
         day: Optional[int] = None,
         func: Optional[Callable[[int], datetime.date]] = None,
+        start_year: Optional[int] = None,
+        end_year: Optional[int] = None,
     ):
         _month_day_passed = month is not None and day is not None
         if _month_day_passed:
@@ -71,9 +77,11 @@ class Holiday:
         self.month = month
         self.day = day
         self.func = func
+        self.start_year = start_year
+        self.end_year = end_year
         self._type = _type
 
-    def calc_for_year(self, year: int) -> datetime.date:
+    def calc_for_year(self, year: int) -> Union[datetime.date, None]:
         """
         Calculate the exact date of the holiday for the specified year.
 
@@ -92,6 +100,10 @@ class Holiday:
         datetime.date(year, 1, 1)
 
         if self._type == 'fixed':
+            if self.start_year is not None and year < self.start_year:
+                return None
+            if self.end_year is not None and year > self.end_year:
+                return None
             return datetime.date(year, self.month, self.day)  # type: ignore
         else:
             func_response = self.func(year)  # type: ignore
@@ -123,7 +135,7 @@ class BusinessDays:
             all_bdays += self._get_year_business_days(year)
         return all_bdays
 
-    def is_bd(self, date: datetime.date | datetime.datetime) -> bool:
+    def is_bd(self, date: Union[datetime.date, datetime.datetime]) -> bool:
         """
         Checks if a given date is a business day.
 
@@ -358,7 +370,12 @@ class BusinessDays:
 
 
 def _get_year_holidays(year: int, holidays: List[Holiday]) -> List[datetime.date]:
-    return [holiday.calc_for_year(year) for holiday in holidays]
+    holidays_dates = []
+    for holiday in holidays:
+        holiday_date = holiday.calc_for_year(year)
+        if holiday_date is not None:
+            holidays_dates.append(holiday_date)
+    return holidays_dates
 
 
 def _get_year_business_days(
@@ -440,7 +457,7 @@ FERIADOS_NACIONAIS_BR = [
     Holiday(month=10, day=12),  # Nossa Senhora Aparecida
     Holiday(month=11, day=2),  # Finados
     Holiday(month=11, day=15),  # Proclamação da República
-    Holiday(month=11, day=20),  # Consciência Negra
+    Holiday(month=11, day=20, start_year=2024),  # Consciência Negra
     Holiday(month=12, day=25),  # Natal
 ]
 

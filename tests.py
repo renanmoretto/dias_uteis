@@ -1,3 +1,4 @@
+import random
 import datetime
 import unittest
 
@@ -102,6 +103,7 @@ class TestDiasUteis(unittest.TestCase):
             datetime.date(2023, 11, 14),
             datetime.date(2023, 11, 16),
             datetime.date(2023, 11, 17),
+            datetime.date(2023, 11, 20),
             datetime.date(2023, 11, 21),
             datetime.date(2023, 11, 22),
             datetime.date(2023, 11, 23),
@@ -111,7 +113,7 @@ class TestDiasUteis(unittest.TestCase):
             datetime.date(2023, 11, 29),
         ]
 
-        assert len(range_dus) == 18
+        assert len(range_dus) == 19
         assert len(range_dus) == len(nov2023_dus_sample)
 
         for du, du_sample in zip(range_dus, nov2023_dus_sample):
@@ -122,7 +124,7 @@ class TestDiasUteis(unittest.TestCase):
         year_dus = dus.year_dus(2023)
         for du in year_dus:
             assert dus.is_du(du)
-        assert len(year_dus) == 248
+        assert len(year_dus) == 249
 
     def test_year_holidays(self):
         year_holidays = dus.year_holidays(2023)
@@ -138,12 +140,11 @@ class TestDiasUteis(unittest.TestCase):
             datetime.date(2023, 10, 12),
             datetime.date(2023, 11, 2),
             datetime.date(2023, 11, 15),
-            datetime.date(2023, 11, 20),
             datetime.date(2023, 12, 25),
         ]
 
         assert len(year_holidays) == len(holidays_2023_sample)
-        assert len(year_holidays) == 13
+        assert len(year_holidays) == 12
         for holiday, holiday_sample in zip(year_holidays, holidays_2023_sample):
             assert holiday == holiday_sample
             assert not dus.is_du(holiday)
@@ -156,11 +157,10 @@ class TestDiasUteis(unittest.TestCase):
         assert dus.diff(datetime.date(2024, 11, 11), datetime.date(2034, 1, 2)) == 2290
         assert dus.diff(datetime.date(2034, 1, 2), datetime.date(2024, 11, 11)) == -2290
 
-    # this should be removed soon
-    def test_diff_du_deprecated(self):
-        assert dus.diff_du(datetime.date(2024, 11, 4), datetime.date(2024, 11, 11)) == 5
-        assert dus.diff_du(datetime.date(2024, 11, 4), datetime.date(2024, 11, 18)) == 9
-        assert dus.diff_du(datetime.date(2024, 11, 11), datetime.date(2024, 11, 4)) == -5
-        assert dus.diff_du(datetime.date(2024, 11, 18), datetime.date(2024, 11, 4)) == -9
-        assert dus.diff_du(datetime.date(2024, 11, 11), datetime.date(2034, 1, 2)) == 2290
-        assert dus.diff_du(datetime.date(2034, 1, 2), datetime.date(2024, 11, 11)) == -2290
+    def test_consciencia_negra(self):
+        # comecou em 2024
+        assert dus.is_du(datetime.date(2014, 11, 20))
+        assert dus.is_du(datetime.date(2023, 11, 20))
+        assert not dus.is_du(datetime.date(2024, 11, 20))
+        assert not dus.is_du(datetime.date(2025, 11, 20))
+        assert not dus.is_du(datetime.date(2026, 11, 20))
